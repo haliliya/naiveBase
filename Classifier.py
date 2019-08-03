@@ -36,6 +36,8 @@ class Classifier:
      print(break_points)
      print(labels)
      '''
+
+     # discretization of feature possible values TODO check if neccessary
      index = self.model_structure.index(feature)
      self.model_structure[index].possible_values = labels
 
