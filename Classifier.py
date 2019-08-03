@@ -32,15 +32,7 @@ class Classifier:
          cut_points.append(min_val + i * interval_width)
      labels = range(len(cut_points) + 1)
      break_points = [min_val] + cut_points + [max_val]
-     '''
-     print(feature.name)
-     print(min_val)
-     print(max_val)
-     print(interval_width)
-     print(cut_points)
-     print(break_points)
-     print(labels)
-     '''
+
 
      # discretization of feature possible values TODO check if neccessary
      index = self.model_structure.index(feature)
@@ -89,16 +81,6 @@ class Classifier:
       p = 1.0/M
       n_class =  len((self.train_set.loc[(self.train_set[feature.name] == feature_value) & (self.train_set['class'] == optional_class)]))
       m_estimate = (n_class + m * p)/(n + m)
-      '''
-      print (optional_class)
-      print (feature.name)
-      print (feature_value)
-      print (n)
-      print (M)
-      print (p)
-      print (n_class)
-      print (m_estimate)
-      print ("\n")
-      '''
+
 
       return m_estimate

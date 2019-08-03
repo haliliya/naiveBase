@@ -37,18 +37,4 @@ num_of_bins = 3
 classifier = Classifier(features_list, train_set)
 classifier.pre_process_data(num_of_bins)
 test_set = read_csv("C:\\Users\\yardenhalili\\PycharmProjects\\naiveBayes\\test.csv")
-'''
-for feature in features_list[:-1]:
-    if feature.type == "NUMERIC":
-        min_val = train_set[feature.name].min()
-        max_val = train_set[feature.name].max()
-        interval_width = (max_val - min_val) / num_of_bins
-        cut_points = []
-        for i in range(1, num_of_bins):
-            cut_points.append(min_val + i * interval_width)
-        labels = range(len(cut_points) + 1)
-        break_points = [min_val] + cut_points + [max_val]
-        test_set = pd.cut(train_set[feature.name], bins = break_points, labels = labels, include_lowest=True)
-'''
-
 classifier.classify(test_set, "C:\\Users\\yardenhalili\\PycharmProjects\\naiveBayes\\output.txt")
