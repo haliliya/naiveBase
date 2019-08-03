@@ -39,5 +39,3 @@ classifier.pre_process_data(num_of_bins)
 test_set = read_csv("C:\\Users\\yardenhalili\\PycharmProjects\\naiveBayes\\test.csv")
 classifier.classify(test_set)
 
-
-

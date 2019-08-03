@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Classifier:
   def __init__(self, model_structure, train_set):
     self.model_structure = model_structure
@@ -17,7 +19,28 @@ class Classifier:
 
 
   def perform_discretization(self, feature, num_of_bins):
-    ''' TODO complete function'''
+     min_val = self.train_set[feature.name].min()
+     max_val = self.train_set[feature.name].max()
+     interval_width =  (max_val - min_val) / num_of_bins
+     cut_points = []
+     break_points = []
+     for i in range(1,num_of_bins):
+         cut_points.append(min_val + i * interval_width)
+     labels = range(len(cut_points) + 1)
+     break_points = [min_val] + cut_points + [max_val]
+     '''
+     print(feature.name)
+     print(min_val)
+     print(max_val)
+     print(interval_width)
+     print(cut_points)
+     print(break_points)
+     print(labels)
+     '''
+     self.train_set[feature.name] = pd.cut(self.train_set[feature.name], bins = break_points, labels = labels, include_lowest=True)
+
+
+
 
 
   def classify(self, test_set):
