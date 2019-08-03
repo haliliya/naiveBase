@@ -23,7 +23,6 @@ class Classifier:
      max_val = self.train_set[feature.name].max()
      interval_width =  (max_val - min_val) / num_of_bins
      cut_points = []
-     break_points = []
      for i in range(1,num_of_bins):
          cut_points.append(min_val + i * interval_width)
      labels = range(len(cut_points) + 1)
@@ -37,6 +36,9 @@ class Classifier:
      print(break_points)
      print(labels)
      '''
+     index = self.model_structure.index(feature)
+     self.model_structure[index].possible_values = labels
+
      self.train_set[feature.name] = pd.cut(self.train_set[feature.name], bins = break_points, labels = labels, include_lowest=True)
 
 
