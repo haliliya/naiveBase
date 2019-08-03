@@ -6,9 +6,10 @@ class Classifier:
     self.train_set = train_set
 
   def pre_process_data(self, num_of_bins):
+      self.missing_values = dict()
       self.discretiztion_params = dict()
       for feature in self.model_structure[:-1]:
-          self.fill_missing_values(feature)
+          self.missing_values[feature.name] = self.fill_missing_values(feature)
           if feature.type == "NUMERIC":
             self.discretiztion_params[feature.name] = self.perform_discretization(feature, num_of_bins)
 
@@ -16,8 +17,10 @@ class Classifier:
   def fill_missing_values(self, feature):
       if feature.type == "CATEGORIAL":
           self.train_set[feature.name].fillna((self.train_set[feature.name]).mode()[0], inplace=True)
+          return self.train_set[feature.name].mode()[0]
       elif feature.type == "NUMERIC":
           self.train_set[feature.name].fillna(self.train_set[feature.name].mean(), inplace=True)
+          return self.train_set[feature.name].mean()
 
 
   def perform_discretization(self, feature, num_of_bins):
@@ -48,6 +51,7 @@ class Classifier:
 
   def classify(self, test_set, path):
       for feature in self.model_structure[:-1]:
+          test_set[feature.name].fillna((self.missing_values[feature.name]), inplace=True)
           if feature.type == "NUMERIC":
             test_set[feature.name] = pd.cut(test_set[feature.name], bins=self.discretiztion_params[feature.name][0], labels=self.discretiztion_params[feature.name][1], include_lowest=True)
       file = open(path, "w")
