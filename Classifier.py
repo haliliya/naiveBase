@@ -61,6 +61,8 @@ class Classifier:
           file.write((str)(i+1) + " " + record_class)
           if i < len(test_set) - 1:
               file.write("\n")
+      file.close()
+
 
   def classify_record(self, record):
       index = len(self.model_structure) - 1
