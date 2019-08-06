@@ -39,9 +39,9 @@ def browse_button():
     global folder_path
     folderName = tkFileDialog.askdirectory()
     folder_path.set(folderName)
-    validateBeforeBuild()
+    validateFolderPath()
 
-def validateBeforeBuild():
+def validateBeforeBuild(*args):
     validFolder = validateFolderPath()
     validBins = validateBins()
     if (validFolder & validBins):
@@ -121,7 +121,7 @@ def classify():
         return
 
     classifier.classify(test_set, folder_path.get() + "/output.txt")
-    tkMessageBox.showinfo("Naive Bayes Classifier","Classifying test-set is done! You can find the results in the chosen folder.")
+    tkMessageBox.showinfo("Naive Bayes Classifier","Classifying test-set is done! You can find the results in the folder you chose")
     root.destroy()
 
 features_list = []
@@ -142,13 +142,19 @@ root.title("Naive Bayes Classifier")
 directory_path_label = Label(root, text="Directory Path")
 directory_path_label.grid(row=0, column=0, sticky=W)
 '''
+
+build_button = Button(text="Build", command=build, state="disabled")
+build_button.grid(row=5, column=1, padx=5, pady=5)
+
 folder_path = StringVar()
+bins = StringVar()
 
 directory_path_label = Label(root, text="Directory Path:")
 discretization_bins_label = Label(root, text="Discretization Bins:")
 
 directory_path_entry = Entry(root, textvariable=folder_path)
-discretization_bins_entry = Entry(root)
+discretization_bins_entry = Entry(root, textvariable=bins)
+bins.trace("w",validateBeforeBuild)
 
 directory_path_entry.grid(row=0, column=1, sticky=W, padx=5, pady=5)
 discretization_bins_entry.grid(row=1, column=1, sticky=W, padx=5, pady=5)
@@ -158,9 +164,6 @@ discretization_bins_label.grid(row=1, column=0, sticky=W, padx=5, pady=5)
 
 browse_button = Button(text="Browse", command=browse_button)
 browse_button.grid(row=0, column=8, padx=5, pady=5)
-
-build_button = Button(text="Build", command=build, state="disabled")
-build_button.grid(row=5, column=1, padx=5, pady=5)
 
 classify_button = Button(text="Classify", command=classify)
 classify_button.grid(row=10,column=1, padx=5, pady=5)
